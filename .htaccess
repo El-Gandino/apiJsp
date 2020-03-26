@@ -1,0 +1,5 @@
+RewriteEngine On # Activer le module Rewrite
+RewriteRule ^user/?$ index.php [NC,L]
+RewriteRule ^user/get?$ index.php [NC,L]
+RewriteRule ^user/auth?$ index.php [NC,L]
+RewriteRule ^user/put?$ index.php [NC,L]
