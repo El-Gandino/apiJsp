@@ -42,7 +42,7 @@ class Api
 	public function setParameters() 
 	{		
 		$this -> pathUrl = $this -> ground -> getPathName();
-		if (!$this -> pathUrl['ok'] || $this -> pathUrl['nb'] != 3) 
+		if (!$this -> pathUrl['ok'] || $this -> pathUrl['nb'] != 2) 
 		{
 			$this -> status = 'error';
 			$this -> setOutput(

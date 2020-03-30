@@ -31,7 +31,6 @@ class Ground
 		if (!isset($_SERVER['REQUEST_URI'])) {
 			return $pathName;
 		}
-		
 		$path  = explode('?', $_SERVER['REQUEST_URI']);
         $pathName['name'] = $path[0];
         
@@ -43,12 +42,11 @@ class Ground
 				array_splice($pathName['path'], $last, 1);
 			}
 			$pathName['nb'] = count($pathName['path']);
-        }
+		}
         $pathName['ok'] = true;
-        $pathName['endPoint'] = $pathName['path'][1];
-        $pathName['action'] = $pathName['path'][2]; 
+        $pathName['endPoint'] = $pathName['path'][0];
+        $pathName['action'] = $pathName['path'][1]; 
 		return $pathName;
-
     }
 
 }

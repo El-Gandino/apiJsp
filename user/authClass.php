@@ -21,7 +21,6 @@ class auth
 		return self::$instance;
 	}
 	public function actionDefault(){
-		var_dump($_POST);
 		$this -> myDbConnect = $this -> myDb -> getConnection();
 		$this -> myDbConnect -> select_db('apidb');
 		$query = $this -> setData(); 
@@ -67,7 +66,6 @@ class auth
 		$query = "SELECT `email`,`token` FROM `user` WHERE  `email` = '$email' && `password` = '$pass' ";
 
 		$user = $this -> myDbConnect -> query($query);
-		var_dump($user,$query);
 		if($user->num_rows != 0){
 			return array(
 				"ok" => false,

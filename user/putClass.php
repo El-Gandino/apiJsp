@@ -26,7 +26,7 @@ class put
 			/*check query*/
 			$this -> myDbConnect = $this -> myDb -> getConnection();
 			$this -> myDbConnect -> select_db('apidb');
-			$query = $this -> setData(); 
+			$query = $this -> setData();
 			if($query['ok'] == false){
 				return $query;
 			}
@@ -35,8 +35,9 @@ class put
 				return $exist;
 			}
 			/*set query*/
-			$this -> insertUser($query['msg']);
+			$return = $this -> insertUser($query['msg']);
 			$this -> myDbConnect -> close ();
+			return $return;
 		}catch (Exception $e) {
 			return array(
 				"ok" => false,
@@ -102,9 +103,11 @@ class put
 		$password = hash('SHA512',$data['password']);
 		$query = "INSERT INTO `user` (`token`, `name`, `email`, `password`) VALUES ('$token', '$name', '$email', '$password')";
 		$user = $this -> myDbConnect -> query($query);
+		var_dump($this -> myDbConnect -> query($query));
 		return array(
-			"ok" => $user,
-		); 
+			"ok" => true,
+			"msg" => 'user insert'
+		);
 	}
 }
 ?>

@@ -31,12 +31,11 @@
 		public function creatConnection()
 		{
 			try{
-				$this -> connection = new mysqli('localhost',"root","",'apidb',3308);
+				$this -> connection = new mysqli('localhost',"root","",'apidb',3306);
 				$this -> connection -> set_charset("utf8");
 
 				return $this->connection;
 			}catch(Exception $e){
-				var_dump($e);
 				return array(
 					"ok" => false,
 					"msg" => 'error dbConnect :'.$e
