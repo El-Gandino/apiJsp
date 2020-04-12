@@ -3,8 +3,6 @@ namespace Api\user;
 class put
 {
 	static private $instance = null;
-	protected $myDbConnect;
-
 	public function __construct()
 	{
 		require_once('ground.php');
@@ -50,32 +48,41 @@ class put
 		* to optimise		
 	*/
 	private function setData(){
-		if(!$_GET){
+		if(!$_POST){
 			return array(
 				"ok" => false,
-				"msg" => 'not GET data'
+				"msg" => 'not POST data'
 			);
 		}
 		$ok = true;
 		$msg = 'No data : ';
-		if(empty(['name'])){
+		if(empty($_POST['query'])){
+			$ok = false;
+			$msg = 'no query';
+			return array(
+				"ok" => $ok,
+				"msg" => $msg
+			);
+		}
+		$query = json_decode($_POST['query'],true);
+		if(empty($query['name'])){
 			$ok = false;
 			$msg .= 'name / ';
 		}
-		if(empty($_GET['surname'])){
+		if(empty($query['surname'])){
 			$ok = false;
 			$msg .= 'surname / ';
 		}
-		if(empty($_GET['email'])){
+		if(empty($query['email'])){
 			$ok = false;
 			$msg .= 'email / ';
 		}
-		if(empty($_GET['password'])){
+		if(empty($query['password'])){
 			$ok = false;
 			$msg .= 'password / ';
 		}
 		if($ok == true){
-			$msg = $_GET;
+			$msg = $query;
 		}else{
 			$msg = substr($msg,0,-2);
 		}
@@ -103,10 +110,10 @@ class put
 		$password = hash('SHA512',$data['password']);
 		$query = "INSERT INTO `user` (`token`, `name`, `email`, `password`) VALUES ('$token', '$name', '$email', '$password')";
 		$user = $this -> myDbConnect -> query($query);
-		var_dump($this -> myDbConnect -> query($query));
 		return array(
 			"ok" => true,
-			"msg" => 'user insert'
+			"msg" => 'ok',
+			"query" => array('token'=>$token),
 		);
 	}
 }

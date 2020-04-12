@@ -3,3 +3,7 @@ RewriteRule ^user/?$ index.php [NC,L]
 RewriteRule ^user/get?$ index.php [NC,L]
 RewriteRule ^user/auth?$ index.php [NC,L]
 RewriteRule ^user/put?$ index.php [NC,L]
+
+RewriteRule ^person/get?$ index.php [NC,L]
+RewriteRule ^person/put?$ index.php [NC,L]
+RewriteRule ^person/delete?$ index.php [NC,L]

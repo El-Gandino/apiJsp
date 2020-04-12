@@ -41,16 +41,17 @@ class auth
 		}
 		$ok = true;
 		$msg = 'No data : ';
-		if(empty($_POST['login'])){
+		$query = json_decode($_POST['query'],true);
+		if(empty($query['login'])){
 			$ok = false;
 			$msg .= 'login / ';
 		}
-		if(empty($_POST['password'])){
+		if(empty($query['password'])){
 			$ok = false;
 			$msg .= 'password / ';
 		}
 		if($ok == true){
-			$msg = $_POST;
+			$msg = $query;
 		}else{
 			$msg = substr($msg,0,-2);
 		}
@@ -64,15 +65,21 @@ class auth
 		$email = $this -> myDbConnect -> real_escape_string($data['login']);
 		$pass = hash('SHA512',$data['password']);
 		$query = "SELECT `email`,`token` FROM `user` WHERE  `email` = '$email' && `password` = '$pass' ";
-
 		$user = $this -> myDbConnect -> query($query);
+		$value = mysqli_fetch_assoc($user);
+		
 		if($user->num_rows != 0){
 			return array(
-				"ok" => false,
-				"msg" => 'user exist '
+				"ok" => true,
+				"msg" => 'ok',
+				"query" => $value
 			);
 		}
-		return true;
+		return array(
+			"ok" => false,
+			"msg" => 'user or mdp false',
+			
+		);
 	}
 }
 ?>

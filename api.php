@@ -66,13 +66,20 @@ class Api
 			);
 			return false;
 		}
+		if(!$_POST){
+			$this -> setOutput(
+				array(
+					'ok' => false,
+					'status' => 'error',
+					'msg' => 'no data'
+				)
+			);
+		}
 		if(!$this -> listClass && !$this -> listClass[$this -> pathUrl['endPoint']]){
 			
 			require($this -> pathUrl['endPoint'].'/'.$this -> pathUrl['endPoint'].'.php');
-			
 			$className = '\api\\'.$this->pathUrl['endPoint'];
 			$this -> listClass[$this -> pathUrl['endPoint']] = $className::getInstance(); 
-			//\api\Ground::getInstance();
 		}
 		$this -> setOutput($this -> listClass[$this -> pathUrl['endPoint']] -> setAction($this -> pathUrl['action']));
 	}
@@ -106,10 +113,10 @@ class Api
 				"timeStart" => $this -> startScript,
 				"timeEnd" => $endScript,
 				"timeCompute" => $dif
-			)		
+			)
 		);
-		if (isset($data['json']) && $data['json'] !== false) {
-			$output['dataSet']['query'] = $data['json'];
+		if (isset($data['query']) && $data['query'] !== false) {
+			$output['dataSet']['query'] = $data['query'];
 		}
 		echo json_encode($output, JSON_UNESCAPED_UNICODE);
 	}

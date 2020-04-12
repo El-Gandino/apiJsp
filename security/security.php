@@ -5,14 +5,16 @@
  * @version 0.0.1
  * @package API test
 **/
-namespace api\Security;
+namespace api;
 class security
-{
-    	//CONSTRUCTOR
+{	
+	static private $instance = null;
+	protected $myDbConnect;
+    //CONSTRUCTOR
 	public function __construct()
 	{
-		$this -> mysqlDB = \connectDb::connectDb();
-		$this -> mysqlConnect = $this -> mysqlDB -> getConnection();
+		require_once('db/db.php');
+		$this -> myDb = \connectDb::getInstance();	
 	}
 	public static function getInstance()
 	{
@@ -21,7 +23,18 @@ class security
 			self::$instance = new security();
 		}
 		return self::$instance;
-    }
+	}
+	public function userAuth(string $key,string $email){
+		$this -> myDbConnect = $this -> myDb -> getConnection();
+		$this -> myDbConnect -> select_db('apidb');
+		
+		$query = "SELECT `token` FROM `user` WHERE  `email` = '$email' && `token` = '$key' ";
+		$user = $this -> myDbConnect -> query($query);
+		if($user->num_rows == 1){
+			return true;
+		}
+		return false;
+	}
 	
 }
 ?>
